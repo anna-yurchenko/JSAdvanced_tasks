@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Jumbotron from './Jumbotron';
 import Page from './Page';
 import Navbar from './Navbar';
-import Registration from './registration';
+import Registration from './Registration';
 import Login from './Login';
 
 class Theme extends Component {
