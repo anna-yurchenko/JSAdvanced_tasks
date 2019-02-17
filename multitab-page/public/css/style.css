@@ -1,0 +1,34 @@
+.navbar{
+  margin-bottom:0;
+  border:0;
+}
+
+.jumbotron{
+  background: #e7e7e7;
+}
+
+.regLoginForm{
+  width: 500px;
+  height: 250px;
+  margin: auto;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.regLoginInput{
+  height: 200px;
+  width: inherit;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.labelText{
+  font-size: 20px;
+}

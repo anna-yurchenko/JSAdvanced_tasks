@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts search</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div id='content'></div>
+
+    <script type="text/babel">
+
+        var CONTACTS = [
+            {
+                id: 1,
+                name: 'Darth Vader',
+                phoneNumber: '+250966666666',
+                address: '-',
+                image: 'img/darth.gif'
+            }, {
+                id: 2,
+                name: 'Princess Leia',
+                phoneNumber: '+250966344466',
+                address: '-',
+                image: 'img/leia.gif'
+            }, {
+                id: 3,
+                name: 'Luke Skywalker',
+                phoneNumber: '+250976654433',
+                address: '-',
+                image: 'img/luke.gif'
+            }, {
+                id: 4,
+                name: 'Chewbacca',
+                phoneNumber: '+250456784935',
+                address: '-',
+                image: 'img/chewbacca.gif'
+            }
+        ];
+
+        // var Contact = React.createClass({
+        //     render: function() {
+        //         return (
+        //             <li className="contact">
+        //                 <img className="contact-image" src={this.props.image} width="60px" height="60px" />
+        //                 <div className="contact-info">
+        //                     <div className="contact-name"> {this.props.name} </div>
+        //                     <div className="contact-number"> {this.props.phoneNumber} </div>
+        //                     <div className="contact-number"> {this.props.address} </div>
+        //                 </div>
+        //                 <div className="deleteBtn" onClick={this.handleDelete}>X</div>
+        //             </li>
+        //         );
+        //     }
+        // });
+
+        var ContactsList = React.createClass({
+            getInitialState: function() {
+                return {
+                    displayedContacts: CONTACTS,
+                    newContact: ''
+                };
+            },
+
+            handleAdd: function ( e ) {
+                if(this.nameInput.value != '' && this.phoneInput.value != ''){
+                    e.preventDefault();
+                    let contacts = this.state.displayedContacts;
+                    contacts.push( this.state.newContact );
+                    this.setState({
+                        displayedContacts: contacts,
+                        newContact: ''
+                    } );
+                    this.nameInput.value = '';
+                    this.phoneInput.value = '';
+                    this.addressInput.value = '';
+                }
+            },
+
+            setNewContact: function () {
+                let newContact = {
+                    id: this.state.displayedContacts.length++,
+                    name: this.nameInput.value,
+                    phoneNumber: this.phoneInput.value,
+                    address: this.addressInput.value,
+                    image: 'img/new-contact.png'
+                }
+
+                this.setState({
+                    newContact: newContact
+                });
+            },
+
+            handleSearch: function(event) {
+                var searchQuery = event.target.value.toLowerCase();
+                var displayedContacts = CONTACTS.filter(function(el) {
+                    var searchValue = el.name.toLowerCase();
+                    return searchValue.indexOf(searchQuery) !== -1;
+                });
+
+                this.setState({
+                    displayedContacts: displayedContacts
+                });
+            },
+
+            handleDelete: function(elem){
+                console.log('delete')
+                
+                // this.setState({
+                //     displayedContacts: displayedContacts
+                // });
+
+            },
+
+            render: function() {
+                console.log(this.state)
+                return (
+                    <div className="contacts">
+                        <div className="optionsContainer">
+                            <input type="text" placeholder="New name..." className="search-field" onChange={this.setNewContact} ref={(input) => this.nameInput = input}/>
+
+                            <input type="text" placeholder="New phone..." className="search-field" onChange={this.setNewContact} ref={(input) => this.phoneInput = input}/>
+
+                            <input type="text" placeholder="New address..." className="search-field" onChange={this.setNewContact} ref={(input) => this.addressInput = input}/>
+
+                            <div className="btn" onClick={this.handleAdd}><a href="#" className="btnText">Add new</a></div>
+                            <input type="text" placeholder="Search..." className="search-field" onChange={this.handleSearch} />
+                        </div>
+
+                        <ul className="contacts-list">
+                            {
+                               this.state.displayedContacts.map(function(el) {
+                                    // return <Contact
+                                    //     key={el.id}
+                                    //     name={el.name}
+                                    //     phoneNumber={el.phoneNumber}
+                                    //     address={el.address}
+                                    //     image={el.image}
+                                    // />;
+                                    return (<li className="contact">
+                                                <img className="contact-image" src={el.image} width="60px" height="60px" />
+                                                <div className="contact-info">
+                                                    <div className="contact-name"> {el.name} </div>
+                                                    <div className="contact-number"> {el.phoneNumber} </div>
+                                                    <div className="contact-number"> {el.address} </div>
+                                                </div>
+                                                <div className="deleteBtn" onClick={el.handleDelete}>X</div>
+                                            </li>)
+                               })
+                            }
+                        </ul>
+                    </div>
+                );
+            }
+        });
+
+        ReactDOM.render(
+            <ContactsList />,
+            document.getElementById("content")
+        );
+
+    </script>
+</body>
+</html>
