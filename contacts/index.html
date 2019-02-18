@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Contacts search</title>
@@ -8,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
     <div id='content'></div>
 
@@ -41,22 +43,6 @@
             }
         ];
 
-        // var Contact = React.createClass({
-        //     render: function() {
-        //         return (
-        //             <li className="contact">
-        //                 <img className="contact-image" src={this.props.image} width="60px" height="60px" />
-        //                 <div className="contact-info">
-        //                     <div className="contact-name"> {this.props.name} </div>
-        //                     <div className="contact-number"> {this.props.phoneNumber} </div>
-        //                     <div className="contact-number"> {this.props.address} </div>
-        //                 </div>
-        //                 <div className="deleteBtn" onClick={this.handleDelete}>X</div>
-        //             </li>
-        //         );
-        //     }
-        // });
-
         var ContactsList = React.createClass({
             getInitialState: function() {
                 return {
@@ -85,7 +71,7 @@
                     id: this.state.displayedContacts.length++,
                     name: this.nameInput.value,
                     phoneNumber: this.phoneInput.value,
-                    address: this.addressInput.value,
+                    address: this.addressInput.value || '-',
                     image: 'img/new-contact.png'
                 }
 
@@ -107,16 +93,23 @@
             },
 
             handleDelete: function(elem){
-                console.log('delete')
-                
-                // this.setState({
-                //     displayedContacts: displayedContacts
-                // });
+
+                let deletedContact = this.state.displayedContacts;
+                deletedContact = deletedContact.filter(c => c.id.toString() != elem);
+
+                this.setState({
+                    displayedContacts: deletedContact
+                })
 
             },
 
+            deleteThis: function(c){
+                    this.handleDelete(c.target.id);
+                },
+
             render: function() {
-                console.log(this.state)
+                
+
                 return (
                     <div className="contacts">
                         <div className="optionsContainer">
@@ -132,14 +125,7 @@
 
                         <ul className="contacts-list">
                             {
-                               this.state.displayedContacts.map(function(el) {
-                                    // return <Contact
-                                    //     key={el.id}
-                                    //     name={el.name}
-                                    //     phoneNumber={el.phoneNumber}
-                                    //     address={el.address}
-                                    //     image={el.image}
-                                    // />;
+                               this.state.displayedContacts.map((el) => {
                                     return (<li className="contact">
                                                 <img className="contact-image" src={el.image} width="60px" height="60px" />
                                                 <div className="contact-info">
@@ -147,7 +133,7 @@
                                                     <div className="contact-number"> {el.phoneNumber} </div>
                                                     <div className="contact-number"> {el.address} </div>
                                                 </div>
-                                                <div className="deleteBtn" onClick={el.handleDelete}>X</div>
+                                                <div className="deleteBtn" id={el.id} onClick={this.deleteThis}>X</div>
                                             </li>)
                                })
                             }
@@ -164,4 +150,5 @@
 
     </script>
 </body>
+
 </html>
